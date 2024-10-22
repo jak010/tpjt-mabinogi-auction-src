@@ -11,18 +11,20 @@ class HtmlImageExporter:
         self._read_html_path = self.project_root + "/output/temp.html"
         self._read_css_path = self.project_root + "/templates/style.css"
 
-        self._export_size = (1920, 1080)
+        self._export_size = (1080, 1920)
 
         self._save_path = str(self.project_root) + "/output/"
+        self._save_file_name = "output.png"
 
     def save_path(self) -> str:
-        return self._save_path
+        return self._save_path + self._save_file_name
 
     @property
     def css_path(self):
         return Path(self._read_css_path)
 
     def execute(self):
+
         htoi = Html2Image()
         htoi.output_path = self._save_path
         with open(self._read_html_path) as f:
@@ -30,6 +32,5 @@ class HtmlImageExporter:
                 f.read(),
                 size=self._export_size,
                 css_str=self.css_path.read_text(),
-                save_as="output.png"
+                save_as=self._save_file_name
             )
-

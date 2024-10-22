@@ -10,4 +10,4 @@ def today_midnigit():
 
 
 def get_day_after_two_days():
-    return current_kst + timedelta(days=2, hours=5)
+    return current_kst + timedelta(days=2)

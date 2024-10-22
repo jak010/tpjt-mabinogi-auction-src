@@ -10,6 +10,6 @@ class MabinogiTimeProcessor:
     def __init__(self, auction_items: List[AuctionItemDto | AuctionHistoryDto]):
         self.auction_items = auction_items
 
-    def get_auction_item_with_two_days(self) -> List[AuctionItemDto | AuctionHistoryDto]:
+    def get_auction_item_until_two_days(self) -> List[AuctionItemDto | AuctionHistoryDto]:
         return AuctionItemFilterUntilTwoDays(auction_items=self.auction_items) \
             .execute()

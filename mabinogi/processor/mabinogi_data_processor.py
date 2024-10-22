@@ -3,13 +3,15 @@ from typing import List, Dict
 from mabinogi.model.Report import Report
 from model.AuctionItemDto import AuctionItemDto
 
+from .sorter import Sorter
 
-class MabinogiDataProcessor:
 
-    def __init__(self, auction_items: Dict[str, List[AuctionItemDto]]):
-        self.auction_items = auction_items
+class MabinogiReportProcessor:
 
-    def get_report(self):
+    def __init__(self, sorter: Sorter):
+        self.auction_items = sorter.execute(direction="ASC")
+
+    def execute(self):
         """ 시간대별, 평균가, 최저가, 최고가, 판매수량,  """
 
         reports = []

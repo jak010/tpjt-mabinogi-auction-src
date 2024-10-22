@@ -21,6 +21,6 @@ class AuctionItemFilterUntilTwoDays(Filter):
 
         result = []
         for auction_item in self.auction_items:
-            if auction_item.get_date_auction_expire_kst() < time_utils.get_day_after_two_days():
+            if time_utils.current_kst < auction_item.get_date_auction_expire_kst() < time_utils.get_day_after_two_days():
                 result.append(auction_item)
         return result
