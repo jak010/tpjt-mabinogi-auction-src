@@ -1,8 +1,9 @@
-from typing import List
+from datetime import datetime
+from typing import List, Dict
 
 from model.AuctionHistoryDto import AuctionHistoryDto
 from model.AuctionItemDto import AuctionItemDto
-from processor.filter import AuctionItemFilterUntilTwoDays
+from processor.filter import AuctionItemFilterUntilTwoDays, AutionItemFilterGroupByMinutes
 
 
 class MabinogiTimeProcessor:
@@ -12,4 +13,8 @@ class MabinogiTimeProcessor:
 
     def get_auction_item_until_two_days(self) -> List[AuctionItemDto | AuctionHistoryDto]:
         return AuctionItemFilterUntilTwoDays(auction_items=self.auction_items) \
+            .execute()
+
+    def get_auction_item_group_by_minutes(self) -> Dict[datetime, List[AuctionItemDto | AuctionHistoryDto]]:
+        return AutionItemFilterGroupByMinutes(auction_items=self.auction_items) \
             .execute()

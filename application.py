@@ -38,29 +38,29 @@ class MyClient(discord.Client):
         try:
             channel = self.get_channel(int(DiscordChannel.CHANNEL_1.value))
 
-            for tracking_item in mabinogi_items.get_items():
-                acution_items = self.mabinogi_client.get_auction_items(tracking_item)
-
-                acution_items_until_two_day = MabinogiTimeProcessor(auction_items=acution_items) \
-                    .get_auction_item_until_two_days()
-                auction_items_group_by_hourly = MabinogiAuctionItemProcessor(auction_items=acution_items_until_two_day) \
-                    .get_auction_items_group_by_hourly()
-
-                auction_reports = MabinogiReportProcessor(
-                    sorter=MabinogiAuctionItemSorter(auction_items_group_by_hourly)
-                ).execute()
-
-                render = HtmlRender(
-                    title=tracking_item.item_name,
-                    reports=auction_reports[0:25],
-                    reports_json=[json.loads(json.dumps(action_report.as_dict())) for action_report in auction_reports[0:30]]
-                )
-                render.execute()
-
-                exporter = HtmlImageExporter()
-                exporter.execute()
-
-                await channel.send(file=DiscordFile(exporter.save_path()))
+            # for tracking_item in mabinogi_items.get_items():
+            #     acution_items = self.mabinogi_client.get_auction_items(tracking_item)
+            #
+            #     acution_items_until_two_day = MabinogiTimeProcessor(auction_items=acution_items) \
+            #         .get_auction_item_until_two_days()
+            #     auction_items_group_by_hourly = MabinogiAuctionItemProcessor(auction_items=acution_items_until_two_day) \
+            #         .get_auction_items_group_by_hourly()
+            #
+            #     auction_reports = MabinogiReportProcessor(
+            #         sorter=MabinogiAuctionItemSorter(auction_items_group_by_hourly)
+            #     ).execute()
+            #
+            #     render = HtmlRender(
+            #         title=tracking_item.item_name,
+            #         reports=auction_reports[0:25],
+            #         reports_json=[json.loads(json.dumps(action_report.as_dict())) for action_report in auction_reports[0:30]]
+            #     )
+            #     render.execute()
+            #
+            #     exporter = HtmlImageExporter()
+            #     exporter.execute()
+            #
+            #     await channel.send(file=DiscordFile(exporter.save_path()))
 
         except Exception as e:
             raise e
