@@ -84,7 +84,11 @@ class MarketService:
         all_item_stats = self.item_statistics_service.process_item_data_for_statistics(items_data)
         recommendation_text = self.recommendation_service.generate_recommendation_text(all_item_stats)
 
-        converted_item_data = items_data
+        # AuctionItemDto 리스트를 MarketItemResponse 리스트로 변환
+        converted_item_data = {
+            item_name: [MarketItemResponse.model_validate(item) for item in items]
+            for item_name, items in items_data.items()
+        }
 
         return MarketChartResponse(
             item_data=converted_item_data,

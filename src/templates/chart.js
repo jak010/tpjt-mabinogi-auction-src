@@ -295,6 +295,8 @@ async function fetchAndRenderChart() {
 function renderStatistics(itemStatistics, recommendationText) {
     const itemStatisticsDiv = document.getElementById('item-statistics');
     const recommendationDiv = document.getElementById('recommendation');
+    console.log('itemStatisticsDiv:', itemStatisticsDiv);
+    console.log('recommendationDiv:', recommendationDiv);
     itemStatisticsDiv.innerHTML = ''; // Clear previous statistics
     recommendationDiv.innerHTML = ''; // Clear previous recommendation
 
@@ -304,17 +306,14 @@ function renderStatistics(itemStatistics, recommendationText) {
         itemStatsDiv.style.borderBottom = '1px solid #eee';
         itemStatsDiv.style.paddingBottom = '5px';
 
-        const title = document.createElement('h3');
-        title.textContent = stats.itemName;
-        itemStatsDiv.appendChild(title);
-
         if (stats.error) {
-            const errorP = document.createElement('p');
-            errorP.style.color = 'red';
-            errorP.textContent = stats.error;
-            itemStatsDiv.appendChild(errorP);
+            itemStatsDiv.innerHTML = `
+                <h3>${stats.itemName}</h3>
+                <p style="color: red;">${stats.error}</p>
+            `;
         } else {
             itemStatsDiv.innerHTML = `
+                <h3>${stats.itemName}</h3>
                 <p>등록된 총 아이템 수: ${new Intl.NumberFormat('ko-KR').format(stats.totalItems)}</p>
                 <p>전체 평균 가격: ${new Intl.NumberFormat('ko-KR').format(stats.averagePrice)} 골드</p>
                 <p>시간별 최저가 평균: ${new Intl.NumberFormat('ko-KR').format(stats.timeBasedAveragePrice)} 골드</p>
