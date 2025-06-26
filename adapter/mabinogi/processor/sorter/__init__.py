@@ -1,7 +1,7 @@
 from abc import ABCMeta
 from typing import List, Literal, Dict
-from mabinogi.model.AuctionHistoryDto import AuctionHistoryDto
-from mabinogi.model.AuctionItemDto import AuctionItemDto
+
+from adapter.mabinogi.model.AuctionItemDto import AuctionItemDto
 
 
 class Sorter(metaclass=ABCMeta):

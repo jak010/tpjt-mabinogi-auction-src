@@ -1,8 +1,8 @@
 from typing import List
 
-from model.AuctionHistoryDto import AuctionHistoryDto
-from model.AuctionItemDto import AuctionItemDto
-from processor.aggregator import AuctionHistoryGroupByHour
+from adapter.mabinogi.model.AuctionHistoryDto import AuctionHistoryDto
+from adapter.mabinogi.model.AuctionItemDto import AuctionItemDto
+from adapter.mabinogi.processor.aggregator import AuctionHistoryGroupByHour
 
 
 class MabinogiAuctionHistoryProcessor:

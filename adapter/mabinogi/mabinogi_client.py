@@ -1,9 +1,8 @@
-import json
 from typing import List
 
 import requests
 
-from model.AuctionHistoryDto import AuctionHistoryDto
+from .model.AuctionHistoryDto import AuctionHistoryDto
 from .model.AuctionItemDto import AuctionItemDto
 from .model.Item import Item
 

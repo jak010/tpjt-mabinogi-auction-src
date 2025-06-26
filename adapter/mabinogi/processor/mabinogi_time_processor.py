@@ -1,9 +1,9 @@
 from datetime import datetime
 from typing import List, Dict
 
-from model.AuctionHistoryDto import AuctionHistoryDto
-from model.AuctionItemDto import AuctionItemDto
-from processor.filter import AuctionItemFilterUntilTwoDays, AutionItemFilterGroupByMinutes
+from adapter.mabinogi.model.AuctionHistoryDto import AuctionHistoryDto
+from adapter.mabinogi.model.AuctionItemDto import AuctionItemDto
+from adapter.mabinogi.processor.filter import AuctionItemFilterUntilTwoDays, AutionItemFilterGroupByMinutes
 
 
 class MabinogiTimeProcessor:

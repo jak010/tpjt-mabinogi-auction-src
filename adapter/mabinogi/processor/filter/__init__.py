@@ -2,8 +2,8 @@ from datetime import datetime
 from abc import ABCMeta
 from typing import List, Dict, Union
 
-from mabinogi.model.AuctionHistoryDto import AuctionHistoryDto
-from mabinogi.model.AuctionItemDto import AuctionItemDto
+from adapter.mabinogi.model.AuctionHistoryDto import AuctionHistoryDto
+from adapter.mabinogi.model.AuctionItemDto import AuctionItemDto
 
 from utils import time_utils
 

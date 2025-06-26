@@ -1,6 +1,6 @@
 from typing import List, Dict
 
-from model.AuctionItemDto import AuctionItemDto
+from adapter.mabinogi.model.AuctionItemDto import AuctionItemDto
 from .aggregator import AuctionItemGroupByHour
 
 

@@ -1,7 +1,7 @@
 from typing import List, Dict
 
-from mabinogi.model.Report import Report
-from model.AuctionItemDto import AuctionItemDto
+from adapter.mabinogi.model.Report import Report
+from adapter.mabinogi.model.AuctionItemDto import AuctionItemDto
 
 from .sorter import Sorter
 
