@@ -11,7 +11,7 @@ class TestMabinogiClient(unittest.TestCase):
         테스트를 위한 초기 설정을 수행합니다.
         MabinogiClient 인스턴스를 생성하고 API 키, 기본 URL, 헤더를 설정합니다.
         """
-        self.api_key = "test_6366e5f0ae09b2f93d90bb29f58fa0ae473283798afb130f51d5a088dfcb3b37efe8d04e6d233bd35cf2fabdeb93fb0d"
+        self.api_key = ""
         self.client = MabinogiClient(self.api_key)
         self.base_url = "https://open.api.nexon.com"
         self.headers = {"x-nxopen-api-key": self.api_key}

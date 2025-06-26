@@ -1,7 +1,10 @@
-import dataclasses
+from dataclasses import dataclass, asdict
 
 
-@dataclasses.dataclass
+@dataclass
 class Item:
     auction_item_category: str
     item_name: str
+
+    def to_dict(self):
+        return asdict(self)

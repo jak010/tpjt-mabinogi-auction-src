@@ -30,7 +30,7 @@ def group_by_acution_histories():
     import json
 
     auction_items = []
-    with open("./dataset.json") as file:
+    with open("dataset.json") as file:
         dataset = json.loads(file.read())
         [auction_items.append(AuctionHistoryDto(**item)) for item in dataset["auction_history"]]
 
