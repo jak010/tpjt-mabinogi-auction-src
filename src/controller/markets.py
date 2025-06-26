@@ -4,6 +4,8 @@ from fastapi import Query, Depends, HTTPException, status
 from fastapi.routing import APIRouter
 from fastapi.responses import JSONResponse
 
+from adapter.mabinogi.model.AuctionItemDto import AuctionItemDto
+
 markets_router = APIRouter(tags=["MARKETS"])
 
 from .schema.market_schema import MarketItemRequest, MarketItemResponse, MarketChartRequest, MarketChartResponse
