@@ -111,6 +111,7 @@ async function fetchAndRenderChart() {
             throw new Error(errorData.detail || `HTTP error! status: ${response.status}`);
         }
         const { item_data, item_statistics, recommendation } = await response.json();
+        console.log('item_data:', JSON.stringify(item_data)); // item_data 콘솔 출력
         loadingDiv.style.display = 'none';
 
         const datasets = [];
@@ -119,32 +120,34 @@ async function fetchAndRenderChart() {
         // Collect all unique timestamps from all items
         Object.values(item_data).forEach(items => {
             items.forEach(item => {
-                allTimestamps.add(new Date(item.date_auction_expire).getTime());
+                allTimestamps.add(new Date(item.date_auction_expire));
             });
         });
-        const sortedAllTimestamps = Array.from(allTimestamps).sort((a, b) => a - b);
+        const sortedAllTimestamps = Array.from(allTimestamps).sort((a, b) => a.getTime() - b.getTime());
 
         // Create datasets, aligning data with sortedAllTimestamps
         let colorIndex = 0;
         for (const itemName in item_data) {
             const data = item_data[itemName];
             const priceMap = new Map();
+            const countMap = new Map();
             data.forEach(item => {
-                const itemTimestamp = new Date(item.date_auction_expire).getTime();
+                const itemTimestamp = new Date(item.date_auction_expire);
                 priceMap.set(itemTimestamp, item.auction_price_per_unit);
+                countMap.set(itemTimestamp, item.item_count);
             });
 
-            const alignedPrices = sortedAllTimestamps.map(ts => {
+            // Use date_auction_expire for x-axis labels, and auction_price_per_unit for y-axis data
+            const chartData = sortedAllTimestamps.map(ts => {
                 const price = priceMap.get(ts);
-                return price !== undefined ? price : null; // Use null for missing data points
+                return { x: ts, y: price !== undefined ? Number(price) : null };
             });
-
             const color = colors[colorIndex % colors.length];
             colorIndex++;
 
             datasets.push({
                 label: `${itemName} - 최저 가격 (골드)`,
-                data: alignedPrices,
+                data: chartData,
                 borderColor: color,
                 tension: 0.1,
                 fill: false,
@@ -170,7 +173,6 @@ async function fetchAndRenderChart() {
         priceChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: sortedAllTimestamps, // Use all unique timestamps as labels for time scale
                 datasets: datasets
             },
             options: {
@@ -178,24 +180,19 @@ async function fetchAndRenderChart() {
                 maintainAspectRatio: false,
                 scales: {
                     x: {
-                        type: 'time',
+                        type: 'time', // Change x-axis to time for date_auction_expire
                         time: {
-                            unit: 'hour', // Display unit for x-axis
-                            stepSize: 4, // 4-hour intervals
-                            tooltipFormat: 'yyyy-MM-dd HH:mm', // Format for tooltips
+                            unit: 'day', // Display by day
+                            tooltipFormat: 'yyyy-MM-dd HH:mm', // Format for tooltip
                             displayFormats: {
-                                hour: 'MM-dd HH:mm', // Format for axis labels
-                                day: 'yyyy-MM-dd'
+                                day: 'yyyy-MM-dd' // Format for axis labels
                             }
                         },
-                        max: sortedAllTimestamps[sortedAllTimestamps.length - 1] + (4 * 60 * 60 * 1000), // Add 4 hours buffer to the last timestamp
                         title: {
                             display: true,
-                            text: '시간'
+                            text: '경매 만료일'
                         },
                         ticks: {
-                            maxRotation: 0,
-                            minRotation: 0,
                             color: '#666', // Darker tick labels for better contrast
                             font: {
                                 size: 10 // Slightly smaller font for better fit
@@ -238,7 +235,8 @@ async function fetchAndRenderChart() {
                         intersect: false,
                         callbacks: {
                             title: function(context) {
-                                return new Date(context[0].parsed.x).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+                                const date = new Date(context[0].parsed.x);
+                                return `날짜: ${date.toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}`;
                             },
                             label: function(context) {
                                 let label = context.dataset.label || '';
@@ -286,13 +284,14 @@ async function fetchAndRenderChart() {
         });
 
         // Render statistics and recommendation using data from backend
+        console.log('item_statistics:', JSON.stringify(item_statistics));
         renderStatistics(item_statistics, recommendation);
 
     } catch (error) {
         loadingDiv.style.display = 'none';
         errorMessageDiv.textContent = `데이터를 불러오는 데 실패했습니다: ${error.message}`;
         errorMessageDiv.style.display = 'block';
-        console.error('Error fetching data:', error);
+        console.error('데이터를 불러오는 데 실패했습니다:', error); // 에러 메시지 콘솔 출력
     }
 }
 
@@ -314,13 +313,12 @@ function renderStatistics(itemStatistics, recommendationText) {
                     <p>최고 가격: ${new Intl.NumberFormat('ko-KR').format(stats.maxPrice)} 골드</p>
                 `}
         `;
-
-        if (stats.acquisitionRatePer30Min > 0) {
-            itemStatisticsDiv.innerHTML += `
-                <p style="font-weight: bold; color: #28a745;">30분당 획득량: ${stats.acquisitionRatePer30Min}개</p>
-                <p style="font-weight: bold; color: #28a745;">시간당 예상 수익: ${new Intl.NumberFormat('ko-KR').format(stats.profitPerHour)} 골드</p>
-            `;
-        }
+            if (!stats.error) {
+                itemStatisticsDiv.innerHTML += `
+                    <p style="font-weight: bold; color: #28a745;">30분당 획득량: ${stats.acquisitionRatePer30Min}개</p>
+                    <p style="font-weight: bold; color: #28a745;">시간당 예상 수익: ${new Intl.NumberFormat('ko-KR').format(stats.profitPerHour)} 골드</p>
+                `;
+            }
         itemStatisticsDiv.innerHTML += `</div>`; // Close the div for each item
     });
 

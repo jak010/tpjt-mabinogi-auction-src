@@ -5,8 +5,9 @@ from adapter.mabinogi.mabinogi_client import MabinogiClient
 from adapter.mabinogi.model.AuctionItemDto import AuctionItemDto
 from adapter.mabinogi.model.Item import Item
 from dotenv import load_dotenv
+import os
 
-load_dotenv()
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '..', '.env'))
 
 class MabinogiAuctionRepository:
     def __init__(self):
