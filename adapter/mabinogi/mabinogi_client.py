@@ -5,6 +5,7 @@ import requests
 from .model.AuctionHistoryDto import AuctionHistoryDto
 from .model.AuctionItemDto import AuctionItemDto
 from .model.Item import Item
+from adapter.mabinogi.processor.filter.mabinogi_auction_item_filter import filter_auction_items_by_days
 
 
 class MabinogiClient:
@@ -17,8 +18,13 @@ class MabinogiClient:
             "x-nxopen-api-key": self.api_key
         }
 
-    def get_auction_items(self, item: Item) -> List[AuctionItemDto]:
-        """ 경매장 매물 검색 """
+    def get_auction_items(self, item: Item, days: int = 7) -> List[AuctionItemDto]:
+        """ 경매장 매물 검색
+
+        Docs:
+            /mabinogi/v1/auction/list
+
+        """
         suffix_url = "/mabinogi/v1/auction/list"
 
         r = requests.get(
@@ -29,9 +35,13 @@ class MabinogiClient:
                 "item_name": item.item_name
             }
         )
+
+        result: List[AuctionItemDto] = []
         if r.status_code == 200:
-            print(r.json())
-            return [AuctionItemDto(**item) for item in r.json()["auction_item"]]
+            for item_data in r.json()["auction_item"]:
+                result.append(AuctionItemDto(**item_data))
+
+            return filter_auction_items_by_days(result, days)
 
         raise r.raise_for_status()
 

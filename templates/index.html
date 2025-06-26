@@ -3,13 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>꿀통 추적기</title>
-
+    <title>Mabinogi Auction Items</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial@0.1.0/dist/chartjs-chart-financial.min.js"></script>
 </head>
-<body onload="onReady()">
+<body>
+    <h1>Mabinogi Auction Items - Price History</h1>
+    <div class="chart-container">
+        <canvas id="auctionChart"></canvas>
+    </div>
 
-<h1> 꿀통 추적기</h1>
+    <h2>OHLC Data for 크라반의 수액</h2>
+    <table id="ohlcTable">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Open</th>
+                <th>High</th>
+                <th>Low</th>
+                <th>Close</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- OHLC data will be inserted here by JavaScript -->
+        </tbody>
+    </table>
 
+    <script>
+        const auctionData = [
+            {"item_name": "크라반의 수액", "item_display_name": "크라반의 수액", "item_count": 2, "auction_price_per_unit": 15499, "date_auction_expire": "2025-06-27 07:04:00+09:00"},
+            {"item_name": "크라반의 수액", "item_display_name": "크라반의 수액", "item_count": 20, "auction_price_per_unit": 45000, "date_auction_expire": "2025-06-27 00:30:00+09:00"},
+            {"item_name": "크라반의 수액", "item_display_name": "크라반의 수액", "item_count": 1, "auction_price_per_unit": 17000, "date_auction_expire": "2025-06-26 23:57:00+09:00"},
+            {"item_name": "크라반의 수액", "item_display_name": "크라반의 수액", "item_count": 1, "auction_price_per_unit": 11980, "date_auction_expire": "2025-06-26 23:49:00+09:00"},
+            {"item_name": "크라반의 수액", "item_display_name": "크라반의 수액", "item_count": 1, "auction_price_per_unit": 19000, "date_auction_expire": "2025-06-26 23:42:00+09:00"},
+            {"item_name": "크라반의 수액", "item_display_name": "크라반의 수액", "item_count": 1, "auction_price_per_unit": 20000, "date_auction_expire": "2025-06-26 23:22:00+09:00"},
+            {"item_name": "크라반의 수액", "item_display_name": "크라반의 수액", "item_count": 1, "auction_price_per_unit": 12000, "date_auction_expire": "2025-06-26 08:37:00+09:00"},
+            {"item_name": "크라반의 수액", "item_display_name": "크라반의 수액", "item_count": 1, "auction_price_per_unit": 12000, "date_auction_expire": "2025-06-26 20:37:00+09:00"},
+            {"item_name": "크라반의 수액", "item_display_name": "크라반의 수액", "item_count": 1, "auction_price_per_unit": 19999, "date_auction_expire": "2025-06-26 20:26:00+09:00"},
+            {"item_name": "크라반의 수액", "item_display_name": "크라반의 수액", "item_count": 1, "auction_price_per_unit": 12000, "date_auction_expire": "2025-06-26 20:02:00+09:00"},
+            {"item_name": "크라반의 수액", "item_display_name": "크라반의 수액", "item_count": 1, "auction_price_per_unit": 12700, "date_auction_expire": "2025-06-26 19:48:00+09:00"},
+            {"item_name": "크라반의 수액", "item_display_name": "크라반의 수액", "item_count": 16, "auction_price_per_unit": 12800, "date_auction_expire": "2025-06-26 17:30:00+09:00"},
+            {"item_name": "크라반의 수액", "item_display_name": "크라반의 수액", "item_count": 1, "auction_price_per_unit": 13000, "date_auction_expire": "2025-06-27 17:14:00+09:00"},
+            {"item_name": "크라반의 수액", "item_display_name": "크라반의 수액", "item_count": 1, "auction_price_per_unit": 12800, "date_auction_expire": "2025-06-26 15:42:00+09:00"},
+            {"item_name": "크라반의 수액", "item_display_name": "크라반의 수액", "item_count": 1, "auction_price_per_unit": 12900, "date_auction_expire": "2025-06-26 15:34:00+09:00"},
+            {"item_name": "크라반의 수액", "item_display_name": "크라반의 수액", "item_count": 1, "auction_price_per_unit": 12800, "date_auction_expire": "2025-06-26 14:49:00+09:00"},
+            {"item_name": "크라반의 수액", "item_display_name": "크라반의 수액", "item_count": 1, "auction_price_per_unit": 13000, "date_auction_expire": "2025-06-26 14:32:00+09:00"},
+            {"item_name": "크라반의 수액", "item_display_name": "크라반의 수액", "item_count": 2, "auction_price_per_unit": 30000, "date_auction_expire": "2025-06-26 11:58:00+09:00"},
+            {"item_name": "크라반의 수액", "item_display_name": "크라반의 수액", "item_count": 1, "auction_price_per_unit": 33000, "date_auction_expire": "2025-06-26 11:23:00+09:00"},
+            {"item_name": "크라반의 수액", "item_display_name": "크라반의 수액", "item_count": 1, "auction_price_per_unit": 19800, "date_auction_expire": "2025-06-26 10:42:00+09:00"},
+            {"item_name": "크라반의 수액", "item_display_name": "크라반의 수액", "item_count": 100, "auction_price_per_unit": 100000, "date_auction_expire": "2025-06-27 09:37:00+09:00"},
+            {"item_name": "크라반의 수액", "item_display_name": "크라반의 수액", "item_count": 2, "auction_price_per_unit": 13000, "date_auction_expire": "2025-06-27 03:16:00+09:00"},
+            {"item_name": "크라반의 수액", "item_display_name": "크라반의 수액", "item_count": 32, "auction_price_per_unit": 30000, "date_auction_expire": "2025-06-27 03:03:00+09:00"},
+            // Additional dummy data for other items
+            {"item_name": "생명력 500 포션", "item_display_name": "생명력 500 포션", "item_count": 10, "auction_price_per_unit": 5000, "date_auction_expire": "2025-06-27 10:00:00+09:00"},
+            {"item_name": "생명력 500 포션", "item_display_name": "생명력 500 포션", "item_count": 5, "auction_price_per_unit": 5500, "date_auction_expire": "2025-06-27 11:00:00+09:00"},
+            {"item_name": "마나 500 포션", "item_display_name": "마나 500 포션", "item_count": 15, "auction_price_per_unit": 6000, "date_auction_expire": "2025-06-27 12:00:00+09:00"},
+            {"item_name": "마나 500 포션", "item_display_name": "마나 500 포션", "item_count": 8, "auction_price_per_unit": 6200, "date_auction_expire": "2025-06-27 13:00:00+09:00"},
+            {"item_name": "최고급 가죽", "item_display_name": "최고급 가죽", "item_count": 3, "auction_price_per_unit": 25000, "date_auction_expire": "2025-06-27 14:00:00+09:00"},
+            {"item_name": "최고급 가죽", "item_display_name": "최고급 가죽", "item_count": 1, "auction_price_per_unit": 27000, "date_auction_expire": "2025-06-27 15:00:00+09:00"}
+        ];
 
+        document.addEventListener('DOMContentLoaded', () => {
+            const ctx = document.getElementById('auctionChart').getContext('2d');
+            const ohlcTableBody = document.querySelector('#ohlcTable tbody');
+            
+            // Filter for a specific item (e.g., "크라반의 수액") for the OHLC chart
+            const targetItemName = "크라반의 수액";
+            const filteredData = auctionData.filter(item => item.item_display_name === targetItemName);
+
+            // Group data by date and calculate OHLC
+            const ohlcData = {};
+            filteredData.forEach(item => {
+                const date = new Date(item.date_auction_expire).toDateString(); // Group by day
+                const price = item.auction_price_per_unit;
+
+                if (!ohlcData[date]) {
+                    ohlcData[date] = {
+                        open: price,
+                        high: price,
+                        low: price,
+                        close: price,
+                        timestamp: new Date(item.date_auction_expire).getTime()
+                    };
+                } else {
+                    ohlcData[date].high = Math.max(ohlcData[date].high, price);
+                    ohlcData[date].low = Math.min(ohlcData[date].low, price);
+                    ohlcData[date].close = price; // Last price of the day
+                }
+            });
+
+            // Convert OHLC data to array format for Chart.js Financial
+            const chartData = Object.keys(ohlcData).sort((a, b) => new Date(a) - new Date(b)).map(date => ({
+                x: ohlcData[date].timestamp,
+                o: ohlcData[date].open,
+                h: ohlcData[date].high,
+                l: ohlcData[date].low,
+                c: ohlcData[date].close
+            }));
+
+            console.log("Generated Chart Data:", chartData); // Log the data for debugging
+
+            new Chart(ctx, {
+                type: 'candlestick', // Use 'candlestick' type
+                data: {
+                    datasets: [{
+                        label: `${targetItemName} Price History`,
+                        data: chartData,
+                        borderColor: 'rgba(0, 123, 255, 1)',
+                        borderWidth: 1,
+                        candlestick: {
+                            up: {
+                                backgroundColor: 'rgba(75, 192, 192, 0.8)', // Green for up
+                                borderColor: 'rgba(75, 192, 192, 1)'
+                            },
+                            down: {
+                                backgroundColor: 'rgba(255, 99, 132, 0.8)', // Red for down
+                                borderColor: 'rgba(255, 99, 132, 1)'
+                            }
+                        }
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'day',
+                                displayFormats: {
+                                    day: 'yyyy-MM-dd'
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Date'
+                            }
+                        },
+                        y: {
+                            beginAtZero: false,
+                            title: {
+                                display: true,
+                                text: 'Price (Gold)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const data = context.raw;
+                                    return [
+                                        `Open: ${data.o.toLocaleString()} Gold`,
+                                        `High: ${data.h.toLocaleString()} Gold`,
+                                        `Low: ${data.l.toLocaleString()} Gold`,
+                                        `Close: ${data.c.toLocaleString()} Gold`
+                                    ];
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Populate OHLC table
+            Object.keys(ohlcData).sort((a, b) => new Date(a) - new Date(b)).forEach(date => {
+                const data = ohlcData[date];
+                const row = ohlcTableBody.insertRow();
+                row.insertCell().textContent = new Date(data.timestamp).toLocaleDateString();
+                row.insertCell().textContent = data.open.toLocaleString();
+                row.insertCell().textContent = data.high.toLocaleString();
+                row.insertCell().textContent = data.low.toLocaleString();
+                row.insertCell().textContent = data.close.toLocaleString();
+            });
+        });
+    </script>
 </body>
 </html>
