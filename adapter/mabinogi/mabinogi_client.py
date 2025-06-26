@@ -30,6 +30,7 @@ class MabinogiClient:
             }
         )
         if r.status_code == 200:
+            print(r.json())
             return [AuctionItemDto(**item) for item in r.json()["auction_item"]]
 
         raise r.raise_for_status()

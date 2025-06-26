@@ -10,6 +10,7 @@ class AuctionItemDto:
     item_count: int
     auction_price_per_unit: int
     date_auction_expire: str
+    auction_item_category: str
 
     item_option: List[dict]
 
