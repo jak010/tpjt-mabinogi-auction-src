@@ -66,10 +66,12 @@ class MarketItemController:
                 detail="요청된 아이템에 대한 데이터를 찾을 수 없습니다."
             )
 
-        statistics_and_recommendation = service.get_item_statistics_and_recommendation(raw_auction_items_map)
+        statistics_and_recommendation = service.get_item_statistics_and_recommendation(
+            raw_auction_items_map
+        )
 
         return MarketChartResponse(
-            item_data=item_data_map,
-            item_statistics=statistics_and_recommendation["itemStatistics"],
-            recommendation=statistics_and_recommendation["recommendation"]
+            item_data=statistics_and_recommendation.item_data,
+            item_statistics=statistics_and_recommendation.item_statistics,
+            recommendation=statistics_and_recommendation.recommendation,
         )

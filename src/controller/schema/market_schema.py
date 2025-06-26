@@ -68,19 +68,27 @@ class MarketChartRequest(BaseModel):
 
 
 class ItemStatisticResponse(BaseModel):
-    itemName: str
-    totalItems: int
-    averagePrice: int
-    timeBasedAveragePrice: int
-    minPrice: int
-    maxPrice: int
-    acquisitionRatePer30Min: float
-    acquisitionRatePerHour: float
-    profitPerHour: float
+    item_name: str = Field()
+    total_items: int = Field()
+    average_price: int = Field()
+    time_based_average_price: int = Field()
+    min_price: int = Field()
+    max_price: int = Field()
+    acquisition_rate_per_30_min: float = Field()
+    acquisition_rate_per_hour: float = Field()
+    profit_per_hour: float = Field()
     error: Optional[str] = None
+
+    model_config = {
+        "populate_by_name": True
+    }
 
 
 class MarketChartResponse(BaseModel):
     item_data: Dict[str, List[MarketItemResponse]]
     item_statistics: List[ItemStatisticResponse]
     recommendation: str
+
+    model_config = {
+        "populate_by_name": True
+    }
