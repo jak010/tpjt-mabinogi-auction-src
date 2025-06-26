@@ -84,10 +84,7 @@ class MarketService:
         all_item_stats = self.item_statistics_service.process_item_data_for_statistics(items_data)
         recommendation_text = self.recommendation_service.generate_recommendation_text(all_item_stats)
 
-        converted_item_data = {
-            item_name: MarketItemResponse.with_items(data)
-            for item_name, data in items_data.items()
-        }
+        converted_item_data = items_data
 
         return MarketChartResponse(
             item_data=converted_item_data,

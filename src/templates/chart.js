@@ -120,27 +120,24 @@ async function fetchAndRenderChart() {
         // Collect all unique timestamps from all items
         Object.values(item_data).forEach(items => {
             items.forEach(item => {
-                allTimestamps.add(new Date(item.date_auction_expire));
+                allTimestamps.add(item.date_auction_expire); // Use ISO string directly
             });
         });
-        const sortedAllTimestamps = Array.from(allTimestamps).sort((a, b) => a.getTime() - b.getTime());
+        const sortedAllTimestamps = Array.from(allTimestamps).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
 
         // Create datasets, aligning data with sortedAllTimestamps
         let colorIndex = 0;
         for (const itemName in item_data) {
             const data = item_data[itemName];
             const priceMap = new Map();
-            const countMap = new Map();
             data.forEach(item => {
-                const itemTimestamp = new Date(item.date_auction_expire);
-                priceMap.set(itemTimestamp, item.auction_price_per_unit);
-                countMap.set(itemTimestamp, item.item_count);
+                priceMap.set(item.date_auction_expire, item.auction_price_per_unit); // Use ISO string as key
             });
 
             // Use date_auction_expire for x-axis labels, and auction_price_per_unit for y-axis data
             const chartData = sortedAllTimestamps.map(ts => {
                 const price = priceMap.get(ts);
-                return { x: ts, y: price !== undefined ? Number(price) : null };
+                return { x: new Date(ts), y: price !== undefined ? Number(price) : null }; // Convert back to Date for Chart.js
             });
             const color = colors[colorIndex % colors.length];
             colorIndex++;
@@ -302,24 +299,32 @@ function renderStatistics(itemStatistics, recommendationText) {
     recommendationDiv.innerHTML = ''; // Clear previous recommendation
 
     itemStatistics.forEach(stats => {
-        itemStatisticsDiv.innerHTML += `
-            <div style="margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px;">
-                <h3>${stats.itemName}</h3>
-                ${stats.error ? `<p style="color: red;">${stats.error}</p>` : `
-                    <p>등록된 총 아이템 수: ${new Intl.NumberFormat('ko-KR').format(stats.totalItems)}</p>
-                    <p>전체 평균 가격: ${new Intl.NumberFormat('ko-KR').format(stats.averagePrice)} 골드</p>
-                    <p>시간별 최저가 평균: ${new Intl.NumberFormat('ko-KR').format(stats.timeBasedAveragePrice)} 골드</p>
-                    <p>최저 가격: ${new Intl.NumberFormat('ko-KR').format(stats.minPrice)} 골드</p>
-                    <p>최고 가격: ${new Intl.NumberFormat('ko-KR').format(stats.maxPrice)} 골드</p>
-                `}
-        `;
-            if (!stats.error) {
-                itemStatisticsDiv.innerHTML += `
-                    <p style="font-weight: bold; color: #28a745;">30분당 획득량: ${stats.acquisitionRatePer30Min}개</p>
-                    <p style="font-weight: bold; color: #28a745;">시간당 예상 수익: ${new Intl.NumberFormat('ko-KR').format(stats.profitPerHour)} 골드</p>
-                `;
-            }
-        itemStatisticsDiv.innerHTML += `</div>`; // Close the div for each item
+        const itemStatsDiv = document.createElement('div');
+        itemStatsDiv.style.marginBottom = '10px';
+        itemStatsDiv.style.borderBottom = '1px solid #eee';
+        itemStatsDiv.style.paddingBottom = '5px';
+
+        const title = document.createElement('h3');
+        title.textContent = stats.itemName;
+        itemStatsDiv.appendChild(title);
+
+        if (stats.error) {
+            const errorP = document.createElement('p');
+            errorP.style.color = 'red';
+            errorP.textContent = stats.error;
+            itemStatsDiv.appendChild(errorP);
+        } else {
+            itemStatsDiv.innerHTML = `
+                <p>등록된 총 아이템 수: ${new Intl.NumberFormat('ko-KR').format(stats.totalItems)}</p>
+                <p>전체 평균 가격: ${new Intl.NumberFormat('ko-KR').format(stats.averagePrice)} 골드</p>
+                <p>시간별 최저가 평균: ${new Intl.NumberFormat('ko-KR').format(stats.timeBasedAveragePrice)} 골드</p>
+                <p>최저 가격: ${new Intl.NumberFormat('ko-KR').format(stats.minPrice)} 골드</p>
+                <p>최고 가격: ${new Intl.NumberFormat('ko-KR').format(stats.maxPrice)} 골드</p>
+                <p style="font-weight: bold; color: #28a745;">30분당 획득량: ${stats.acquisitionRatePer30Min}개</p>
+                <p style="font-weight: bold; color: #28a745;">시간당 예상 수익: ${new Intl.NumberFormat('ko-KR').format(stats.profitPerHour)} 골드</p>
+            `;
+        }
+        itemStatisticsDiv.appendChild(itemStatsDiv);
     });
 
     recommendationDiv.innerHTML = recommendationText;

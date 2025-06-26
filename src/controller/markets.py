@@ -48,7 +48,7 @@ def get_chart_data(
                 aggregate=1  # 이 엔드포인트에서는 집계 로직을 MarketService 내부에서 처리하므로 1로 고정
             )
             auction_items = service.get_market_items(market_item_request)
-            item_data_map[item_query.item_name] = MarketItemResponse.with_items(auction_items)
+            item_data_map[item_query.item_name] = auction_items
             raw_auction_items_map[item_query.item_name] = auction_items
         except Exception as e:
             # 특정 아이템에 대한 데이터 로드 실패 시에도 다른 아이템은 계속 처리
