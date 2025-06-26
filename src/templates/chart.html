@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mabinogi Auction Price Trend</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/chart_style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/date-fns@2.30.0/dist/date-fns.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Mabinogi Auction Price Trend</h1>
+
+        <div id="itemInputs">
+            <!-- Initial item input will be added by JavaScript -->
+        </div>
+        <button onclick="addItemInput()" style="margin-bottom: 15px;">아이템 추가</button>
+        <button onclick="fetchAndRenderChart()">가격 변동 추이 비교</button>
+
+        <div id="loading">데이터를 불러오는 중...</div>
+        <div id="error-message"></div>
+
+        <div class="chart-container">
+            <canvas id="priceChart"></canvas>
+        </div>
+
+        <div id="statistics-container" style="margin-top: 30px; padding: 20px; background-color: #f9f9f9; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+            <h2>아이템 통계</h2>
+            <div id="item-statistics">
+                <!-- Statistics for each item will be rendered here by JavaScript -->
+            </div>
+            <div id="recommendation" style="margin-top: 20px; font-weight: bold; color: #0056b3;">
+                <!-- Recommendation will be rendered here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/chart.js"></script>
+</body>
+</html>
