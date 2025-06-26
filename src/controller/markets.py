@@ -1,16 +1,18 @@
 from typing import List, Dict
 
-from fastapi import Query, Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status
 from fastapi.routing import APIRouter
-from fastapi.responses import JSONResponse
 
 from adapter.mabinogi.model.AuctionItemDto import AuctionItemDto
+from src.services.market_service import MarketService
+from .schema.market_schema import (
+    MarketItemRequest,
+    MarketItemResponse,
+    MarketChartRequest,
+    MarketChartResponse
+)
 
 markets_router = APIRouter(tags=["MARKETS"])
-
-from .schema.market_schema import MarketItemRequest, MarketItemResponse, MarketChartRequest, MarketChartResponse
-
-from src.services.market_service import MarketService
 
 
 class MarketItemController:
@@ -23,7 +25,7 @@ class MarketItemController:
     )
     def get_items(
             request: MarketItemRequest = Depends(MarketItemRequest.as_param),
-            service: MarketService = Depends(MarketService)
+            service: MarketService = Depends(MarketService),
     ):
         auction_items = service.get_market_items(request)
 
@@ -47,7 +49,7 @@ class MarketItemController:
                 market_item_request = MarketItemRequest(
                     item_name=item_query.item_name,
                     item_category=item_query.item_category,
-                    aggregate=1 # 이 엔드포인트에서는 집계 로직을 MarketService 내부에서 처리하므로 1로 고정
+                    aggregate=1  # 이 엔드포인트에서는 집계 로직을 MarketService 내부에서 처리하므로 1로 고정
                 )
                 auction_items = service.get_market_items(market_item_request)
                 item_data_map[item_query.item_name] = MarketItemResponse.with_items(auction_items)
@@ -55,9 +57,8 @@ class MarketItemController:
             except Exception as e:
                 # 특정 아이템에 대한 데이터 로드 실패 시에도 다른 아이템은 계속 처리
                 print(f"Error fetching data for {item_query.item_name}: {e}")
-                item_data_map[item_query.item_name] = [] # 실패한 아이템은 빈 리스트로 처리
+                item_data_map[item_query.item_name] = []  # 실패한 아이템은 빈 리스트로 처리
                 raw_auction_items_map[item_query.item_name] = []
-
 
         if not item_data_map:
             raise HTTPException(

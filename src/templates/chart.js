@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     addItemInput('천옷/방직', '고급 가죽');
     addItemInput('기타', '순수의 결정');
     updateAddItemButtonState();
+    fetchAndRenderChart(); // 페이지 로드 시 초기 차트 렌더링
+    setInterval(fetchAndRenderChart, 15 * 60 * 1000); // 15분마다 업데이트 (15분 * 60초/분 * 1000ms/초)
 });
 
 function updateAddItemButtonState() {

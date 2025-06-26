@@ -1,5 +1,3 @@
-import json
-from datetime import datetime
 from typing import List, Optional, Any, Dict
 
 from fastapi import Query
@@ -61,7 +59,7 @@ class MarketChartRequest(BaseModel):
                  ):
         if len(item_categories) != len(item_names):
             raise ValueError("item_category와 item_name의 개수가 일치해야 합니다.")
-        
+
         items = [
             ItemQuery(item_category=cat, item_name=name)
             for cat, name in zip(item_categories, item_names)
