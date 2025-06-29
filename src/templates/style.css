@@ -1,0 +1,228 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f4f4;
+    margin: 0;
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 90%;
+    max-width: 800px;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.input-section {
+    margin-bottom: 20px;
+}
+
+.input-section label {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.input-section input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
+    width: 200px;
+}
+
+.input-section button {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.input-section button:hover {
+    background-color: #0056b3;
+}
+
+.chart-container {
+    position: relative;
+    height: 400px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.error-message {
+    color: red;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.statistics-container {
+    margin-top: 30px;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    text-align: left;
+}
+
+.statistics-container h2 {
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+}
+
+.statistics-container p {
+    margin-bottom: 8px;
+    color: #555;
+    font-size: 1.1em;
+}
+
+.statistics-container p strong {
+    color: #000;
+    display: inline-block;
+    width: 150px; /* 라벨 너비 고정 */
+}
+
+.statistics-container span {
+    font-weight: normal;
+    color: #007bff;
+}
+
+/* Selected Items Container Styles */
+.selected-items-container {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    text-align: left;
+}
+
+.selected-items-container h2 {
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+}
+
+#selected-items-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+#selected-items-list li {
+    background-color: #e9ecef;
+    padding: 8px 12px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9em;
+    color: #333;
+}
+
+.remove-item-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.8em;
+    line-height: 1;
+    padding: 0;
+}
+
+.remove-item-button:hover {
+    background-color: #c82333;
+}
+
+/* Item Statistics Details Styles (for multiple items) */
+#item-statistics-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.item-statistics-card {
+    flex: 1 1 calc(50% - 20px); /* 두 개의 카드가 한 줄에 오도록 (gap 고려) */
+    min-width: 300px; /* 최소 너비 설정 */
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+    text-align: left;
+}
+
+.item-statistics-card h3 {
+    color: #007bff;
+    margin-top: 0;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #007bff;
+    padding-bottom: 5px;
+}
+
+.item-statistics-card p {
+    margin-bottom: 5px;
+    font-size: 0.95em;
+}
+
+.item-statistics-card p strong {
+    width: 120px; /* 라벨 너비 조정 */
+}
+
+.item-statistics-card span {
+    color: #333;
+}
+
+.acquisition-input-group {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.acquisition-input-group label {
+    font-weight: bold;
+    flex-shrink: 0; /* 라벨이 줄어들지 않도록 */
+}
+
+.acquisition-input-group input[type="number"] {
+    padding: 6px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 80px; /* 입력 필드 너비 조정 */
+    text-align: right;
+}
+
+@media (max-width: 768px) {
+    .item-statistics-card {
+        flex: 1 1 100%; /* 작은 화면에서는 한 줄에 하나씩 */
+    }
+}

@@ -1,3 +1,4 @@
+import statistics
 from typing import List, Optional
 from fastapi import Depends
 from src.repository.mabinogi_auction_repository import MabinogiAuctionRepository
@@ -25,6 +26,8 @@ class ItemStatisticsService:
                 acquisition_rate_per_30_min=0.0,
                 acquisition_rate_per_hour=0.0,
                 profit_per_hour=0.0,
+                standard_deviation=0.0,
+                trade_volume=0,
                 error="No data found for this item."
             )
 
@@ -34,6 +37,9 @@ class ItemStatisticsService:
         average_price = sum(prices) // total_items if total_items > 0 else 0
         min_price = min(prices)
         max_price = max(prices)
+        
+        standard_deviation = statistics.stdev(prices) if len(prices) > 1 else 0.0
+        trade_volume = sum(item.item_count for item in auction_items)
 
         # TODO: Implement time_based_average_price, acquisition_rate_per_30_min, acquisition_rate_per_hour, profit_per_hour
         # For now, setting them to placeholder values or simple calculations
@@ -51,5 +57,7 @@ class ItemStatisticsService:
             max_price=max_price,
             acquisition_rate_per_30_min=acquisition_rate_per_30_min,
             acquisition_rate_per_hour=acquisition_rate_per_hour,
-            profit_per_hour=profit_per_hour
+            profit_per_hour=profit_per_hour,
+            standard_deviation=standard_deviation,
+            trade_volume=trade_volume
         )

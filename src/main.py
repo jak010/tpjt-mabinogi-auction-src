@@ -4,7 +4,7 @@ from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from src.controller.markets import markets_router
+from .controller.markets import markets_router
 
 class ApplicationBuilder:
     def __init__(self):
@@ -23,9 +23,9 @@ class ApplicationBuilder:
         self.app.include_router(markets_router)
 
     def _add_routes(self):
-        @self.app.get("/chart-display")
-        async def chart_display(request: Request):
-            return self.templates.TemplateResponse("chart_display.html", {"request": request})
+        @self.app.get("/")
+        async def index(request: Request):
+            return self.templates.TemplateResponse("index.html", {"request": request})
 
     def build_app(self) -> FastAPI:
         self._configure_static_files()

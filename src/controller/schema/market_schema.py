@@ -87,6 +87,8 @@ class ItemStatisticResponse(BaseModel):
     acquisition_rate_per_30_min: float = Field()
     acquisition_rate_per_hour: float = Field()
     profit_per_hour: float = Field()
+    standard_deviation: float = Field(default=0.0)
+    trade_volume: int = Field(default=0)
     error: Optional[str] = None
 
     model_config = {
