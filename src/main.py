@@ -1,21 +1,36 @@
 import os
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 
 from src.controller.markets import markets_router
 
-# FastAPI 애플리케이션 인스턴스 생성
-app = FastAPI(
-    title="Mabinogi Auction Tracking API",
-    description="Mabinogi Auction Tracking API",
-    version="1.0.0"
-)
+class ApplicationBuilder:
+    def __init__(self):
+        self.app = FastAPI(
+            title="Mabinogi Auction Tracking API",
+            description="Mabinogi Auction Tracking API",
+            version="1.0.0"
+        )
+        self.templates_dir = os.path.join(os.path.dirname(__file__), "templates")
+        self.templates = Jinja2Templates(directory=self.templates_dir)
 
-# 템플릿 디렉토리 설정
-templates_dir = os.path.join(os.path.dirname(__file__), "templates")
+    def _configure_static_files(self):
+        self.app.mount("/static", StaticFiles(directory=self.templates_dir), name="static")
 
-# 라우터 포함
-app.include_router(markets_router)
+    def _include_routers(self):
+        self.app.include_router(markets_router)
 
-# uvicorn이 참조할 ASGI 애플리케이션
-application = app
+    def _add_routes(self):
+        @self.app.get("/chart-display")
+        async def chart_display(request: Request):
+            return self.templates.TemplateResponse("chart_display.html", {"request": request})
+
+    def build_app(self) -> FastAPI:
+        self._configure_static_files()
+        self._include_routers()
+        self._add_routes()
+        return self.app
+
+application = ApplicationBuilder().build_app()
