@@ -1,37 +1,21 @@
-from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
 import os
+
+from fastapi import FastAPI
 
 from src.controller.markets import markets_router
 
+# FastAPI 애플리케이션 인스턴스 생성
+app = FastAPI(
+    title="Mabinogi Auction Tracking API",
+    description="Mabinogi Auction Tracking API",
+    version="1.0.0"
+)
 
-class MabinogiAuctionTrackingApplication:
+# 템플릿 디렉토리 설정
+templates_dir = os.path.join(os.path.dirname(__file__), "templates")
 
-    def __init__(self) -> None:
-        self.app = FastAPI(
-            title="Mabinogi Auction Tracking API",
-            description="Mabinogi Auction Tracking API",
-            version="1.0.0"
-        )
-        self.templates_dir = os.path.join(os.path.dirname(__file__), "templates")
+# 라우터 포함
+app.include_router(markets_router)
 
-    def __call__(self):
-        self.app.include_router(markets_router)
-
-        # Serve static files (CSS, JS, etc.) from the templates directory
-        self.app.mount("/static", StaticFiles(directory=self.templates_dir), name="static")
-
-        @self.app.get("/")
-        async def read_root():
-            return FileResponse(os.path.join(self.templates_dir, "index.html"))
-
-        @self.app.get("/chart")
-        async def read_chart():
-            return FileResponse(os.path.join(self.templates_dir, "chart.html"))
-
-        return self.app
-
-
-# uvicorn src.main:application --relaoad
-application = MabinogiAuctionTrackingApplication()
+# uvicorn이 참조할 ASGI 애플리케이션
+application = app

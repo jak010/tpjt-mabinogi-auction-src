@@ -30,6 +30,7 @@ class MarketItemResponse(BaseModel):
     item_count: int
     auction_price_per_unit: int
     date_auction_expire: str
+    date_auction_expire_kst: str # KST 시간 추가
     auction_item_category: str
 
     item_option: Any
@@ -41,7 +42,19 @@ class MarketItemResponse(BaseModel):
 
     @classmethod
     def with_items(cls, items: List[AuctionItemDto]):
-        return [cls.model_validate(item) for item in items]
+        return [
+            cls(
+                item_name=item.item_name,
+                item_display_name=item.item_display_name,
+                item_count=item.item_count,
+                auction_price_per_unit=item.auction_price_per_unit,
+                date_auction_expire=item.date_auction_expire,
+                date_auction_expire_kst=item.get_date_auction_expire_kst().isoformat(), # KST 시간 추가
+                auction_item_category=item.auction_item_category,
+                item_option=item.item_option
+            )
+            for item in items
+        ]
 
 
 class ItemQuery(BaseModel):
@@ -86,8 +99,6 @@ class ItemStatisticResponse(BaseModel):
 
 class MarketChartResponse(BaseModel):
     item_data: Dict[str, List[MarketItemResponse]]
-    item_statistics: List[ItemStatisticResponse]
-    recommendation: str
 
     model_config = {
         "populate_by_name": True
