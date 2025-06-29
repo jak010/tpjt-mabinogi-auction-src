@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마비노기 경매장 아이템 가격 그래프</title>
+    <link rel="stylesheet" href="/static/chart_display.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>아이템 가격 추이</h1>
+        <div class="input-section">
+            <label for="item-name-input">아이템 이름:</label>
+            <input type="text" id="item-name-input" value="고급 가죽">
+            <button id="fetch-data-button">데이터 불러오기</button>
+        </div>
+        <div class="chart-container">
+            <canvas id="priceChart"></canvas>
+        </div>
+        <div id="statistics-container" class="statistics-container">
+            <h2>아이템 통계 정보</h2>
+            <p><strong>총 아이템 수:</strong> <span id="total-items"></span></p>
+            <p><strong>평균 가격:</strong> <span id="average-price"></span></p>
+            <p><strong>최저 가격:</strong> <span id="min-price"></span></p>
+            <p><strong>최고 가격:</strong> <span id="max-price"></span></p>
+            <p><strong>30분당 획득률:</strong> <span id="acquisition-rate-30min"></span></p>
+            <p><strong>시간당 획득률:</strong> <span id="acquisition-rate-hour"></span></p>
+            <p><strong>시간당 수익:</strong> <span id="profit-per-hour"></span></p>
+        </div>
+        <div id="error-message" class="error-message"></div>
+    </div>
+    <script src="/static/chart_display.js"></script>
+</body>
+</html>

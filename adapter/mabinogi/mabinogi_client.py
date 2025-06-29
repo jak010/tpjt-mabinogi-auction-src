@@ -18,7 +18,7 @@ class MabinogiClient:
             "x-nxopen-api-key": self.api_key
         }
 
-    def get_auction_items(self, item_name: str, days: int = 7) -> List[AuctionItemDto]:
+    def get_auction_items(self, item_name: str, item_category: str = None, days: int = 7) -> List[AuctionItemDto]:
         """ 경매장 매물 검색
 
         Docs:
@@ -30,6 +30,8 @@ class MabinogiClient:
         params = {
             "item_name": item_name
         }
+        if item_category:
+            params["auction_item_category"] = item_category
 
         r = requests.get(
             self.base_url + suffix_url,

@@ -35,5 +35,5 @@ class MarketService(IMarketService):
         """
         입력받은 Item 정보를 이용하여 마비노기 경매장에서 매물을 검색하고 집계합니다.
         """
-        items = self.repository.get_auction_items(item_name=request.item_name)
+        items = self.repository.get_auction_items(item_name=request.item_name, item_category=request.item_category)
         return items

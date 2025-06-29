@@ -8,13 +8,16 @@ from adapter.mabinogi.model.AuctionItemDto import AuctionItemDto
 
 class MarketItemRequest(BaseModel):
     item_name: str
+    item_category: Optional[str] = None
 
     @classmethod
     def as_param(cls,
                  item_name: str = Query(default="고급 가죽"),
+                 item_category: Optional[str] = Query(default=None, alias="item_category")
                  ):
         return cls(
-            item_name=item_name
+            item_name=item_name,
+            item_category=item_category
         )
 
 
