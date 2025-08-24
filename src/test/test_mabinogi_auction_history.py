@@ -16,7 +16,7 @@ mabinogi_processor = MabinogiProcessor()
 
 
 def get_auction_histories():
-    auction_items = mabinogi_client.get_auction_hsitory_items(
+    auction_items = mabinogi_client.get_auction_history_items(
         item=Item(
             auction_item_category="천옷/방직",
             item_name="고급 가죽"

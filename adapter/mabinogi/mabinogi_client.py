@@ -48,7 +48,7 @@ class MabinogiClient:
 
         raise r.raise_for_status()
 
-    def get_auction_hsitory_items(self, item: Item) -> List[AuctionHistoryDto]:
+    def get_auction_history_items(self, item: Item) -> List[AuctionHistoryDto]:
         """ 경매장 거래내역 검색 """
         suffix_url = "/mabinogi/v1/auction/history"
 

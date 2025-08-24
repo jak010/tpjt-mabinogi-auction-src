@@ -1,5 +1,6 @@
 import dataclasses
 from datetime import datetime, timedelta, timezone
+from typing import Optional
 
 
 @dataclasses.dataclass
@@ -11,6 +12,7 @@ class AuctionHistoryDto:
     date_auction_buy: str
     auction_buy_id: int
     item_option: None
+    auction_item_category: Optional[str] = None  # JSON에 있는 값 대응
 
     def get_date_auction_buy(self):
         return datetime.strptime(self.date_auction_buy, "%Y-%m-%dT%H:%M:%S.%fZ")
