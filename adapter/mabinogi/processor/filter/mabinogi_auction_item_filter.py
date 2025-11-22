@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from typing import List
 
 from adapter.mabinogi.model.AuctionItemDto import AuctionItemDto
-from src.utils.time_utils import TZ_KST
+# from src.utils.time_utils import TZ_KST
 
 
 def filter_auction_items_by_days(items: List[AuctionItemDto], days: int) -> List[AuctionItemDto]:

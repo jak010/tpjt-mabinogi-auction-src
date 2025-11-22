@@ -53,6 +53,17 @@ class MabinogiDbConnector:
         try:
             with self.conn.cursor() as cursor:
                 cursor.execute(query, params)
+                return cursor.fetchone()
+        except pymysql.Error as e:
+            print(f"Error executing query: {e}")
+            raise
+
+    def execute_queries(self, query, params=None):
+        if not self.conn:
+            raise ConnectionError("Database not connected. Call connect() or use 'with' statement first.")
+        try:
+            with self.conn.cursor() as cursor:
+                cursor.execute(query, params)
                 return cursor.fetchall()
         except pymysql.Error as e:
             print(f"Error executing query: {e}")

@@ -5,7 +5,7 @@ from typing import List, Dict
 from adapter.mabinogi.model.AuctionHistoryDto import AuctionHistoryDto
 from adapter.mabinogi.model.AuctionItemDto import AuctionItemDto
 
-from src.utils import time_utils
+# from src.utils import time_utils
 
 
 class Filter(metaclass=ABCMeta):

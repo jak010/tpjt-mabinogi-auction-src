@@ -136,3 +136,61 @@ except Exception as e:
     print("트랜잭션이 롤백되었습니다.")
 finally:
     db_connector.disconnect()
+```
+
+## 6. Repository 패턴 사용 예시
+
+`MabinogiDbConnector`는 저수준의 데이터베이스 연결 및 쿼리 실행을 담당하며, `MabinogiAuctionRepository`와 같은 Repository 클래스에서 이를 주입받아 특정 도메인 객체(예: `AuctionItemDto`)에 대한 CRUD 작업을 수행할 수 있습니다.
+
+```python
+from src.db.mabinogi_db_connector import MabinogiDbConnector
+from src.repository.mabinogi_auction_repository import MabinogiAuctionRepository
+from adapter.mabinogi.model.AuctionItemDto import AuctionItemDto
+from datetime import datetime, timezone, timedelta
+
+# 1. DbConnector 인스턴스 생성
+db_connector = MabinogiDbConnector()
+
+# 2. Repository 인스턴스 생성 시 DbConnector 주입
+auction_repository = MabinogiAuctionRepository(db_connector)
+
+# 3. Repository 메서드 사용 예시
+try:
+    db_connector.connect()
+    db_connector.begin_transaction()
+
+    # 새로운 AuctionItemDto 생성
+    new_item = AuctionItemDto(
+        item_name="테스트 아이템",
+        item_display_name="테스트 아이템 (표시)",
+        item_count=1,
+        auction_price_per_unit=10000,
+        date_auction_expire=(datetime.now(timezone.utc) + timedelta(days=1)).isoformat().replace('+00:00', 'Z'),
+        auction_item_category="무기",
+        item_option=[{"type": "강화", "value": "10"}]
+    )
+
+    # 아이템 추가
+    row_count = auction_repository.add_auction_item(new_item)
+    print(f"추가된 아이템 수: {row_count}")
+
+    # 아이템 조회
+    items = auction_repository.get_auction_item_by_name("테스트 아이템")
+    for item in items:
+        print(f"조회된 아이템: {item}")
+
+    # 모든 아이템 조회
+    all_items = auction_repository.get_all_auction_items()
+    print(f"총 아이템 수: {len(all_items)}")
+
+    db_connector.commit_transaction()
+    print("Repository 작업을 포함한 트랜잭션이 성공적으로 커밋되었습니다.")
+
+except ConnectionError as e:
+    print(f"데이터베이스 연결 오류: {e}")
+except Exception as e:
+    print(f"Repository 작업 중 오류 발생: {e}")
+    db_connector.rollback_transaction()
+    print("Repository 작업을 포함한 트랜잭션이 롤백되었습니다.")
+finally:
+    db_connector.disconnect()
