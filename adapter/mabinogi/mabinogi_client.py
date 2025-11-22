@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import List
 
 import requests
@@ -5,7 +7,7 @@ import requests
 from .model.AuctionHistoryDto import AuctionHistoryDto
 from .model.AuctionItemDto import AuctionItemDto
 from .model.Item import Item
-from adapter.mabinogi.processor.filter.mabinogi_auction_item_filter import filter_auction_items_by_days
+from adapter.mabinogi.processor.filter.mabinogi_auction_item_filter import filter_auction_items_by_min_price
 
 
 class MabinogiClient:
@@ -44,7 +46,7 @@ class MabinogiClient:
             for item_data in r.json()["auction_item"]:
                 result.append(AuctionItemDto(**item_data))
 
-            return filter_auction_items_by_days(result, days)
+            return filter_auction_items_by_min_price(result)
 
         raise r.raise_for_status()
 

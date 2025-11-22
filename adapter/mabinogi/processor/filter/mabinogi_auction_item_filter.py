@@ -17,3 +17,11 @@ def filter_auction_items_by_days(items: List[AuctionItemDto], days: int) -> List
         if item_dto.get_date_auction_expire_kst() <= end_date
     ]
     return filtered_result
+
+def filter_auction_items_by_min_price(items: List[AuctionItemDto]) -> List[AuctionItemDto]:
+    """
+    최소값 위주로 매물을 정렬한다
+    """
+    return sorted(items, key=lambda x: x.auction_price_per_unit)
+
+

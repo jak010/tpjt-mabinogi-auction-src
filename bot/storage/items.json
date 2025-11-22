@@ -1,0 +1,76 @@
+{
+  "money": [
+    {
+      "category": "천옷/방직",
+      "name": "고급 가죽",
+      "time_per_minute": 10,
+      "time_per_count": 5
+    },
+    {
+      "category": "천옷/방직",
+      "name": "최고급 가죽",
+      "time_per_minute": 10,
+      "time_per_count": 5
+    },
+    {
+      "category": "기타",
+      "name": "에코스톤 각성제",
+      "time_per_minute": 10,
+      "time_per_count": 8
+    },
+    {
+      "category": "기타",
+      "name": "고급 에코스톤 각성제",
+      "time_per_minute": 10,
+      "time_per_count": 6
+    }
+  ],
+  "baters": [
+    {
+      "category": "천옷/방직",
+      "name": "고급 가죽"
+    },
+    {
+      "category": "천옷/방직",
+      "name": "최고급 가죽"
+    },
+    {
+      "category": "기타",
+      "name": "중급 나무장작"
+    },
+    {
+      "category": "포션",
+      "name": "생명력 500 포션"
+    },
+    {
+      "category": "포션",
+      "name": "마나 500 포션"
+    },
+    {
+      "category": "포션",
+      "name": "스태미나 500 포션"
+    },
+    {
+      "category": "포션",
+      "name": "마리오네트 500 포션"
+    }
+  ],
+  "chromebars": [
+    {
+      "category": "기타",
+      "name": "손상된 글라스 기브넨의 깃털"
+    },
+    {
+      "category": "기타",
+      "name": "글라스 기브넨의 심장"
+    },
+    {
+      "category": "기타",
+      "name": "아다만티움"
+    },
+    {
+      "category": "기타",
+      "name": "결정화된 겨울의 잔해"
+    }
+  ]
+}

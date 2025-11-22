@@ -1,0 +1,47 @@
+{
+  "items": [
+    {
+      "category": "천옷/방직",
+      "name": "고급 가죽",
+      "time_per_minute": 10,
+      "time_per_count": 5,
+      "is_searchable": true
+    },
+    {
+      "category": "천옷/방직",
+      "name": "최고급 가죽",
+      "time_per_minute": 10,
+      "time_per_count": 5,
+      "is_searchable": true
+    },
+    {
+      "category": "기타",
+      "name": "에코스톤 각성제",
+      "time_per_minute": 10,
+      "time_per_count": 8,
+      "is_searchable": true
+    },
+    {
+      "category": "기타",
+      "name": "고급 에코스톤 각성제",
+      "time_per_minute": 10,
+      "time_per_count": 6,
+      "is_searchable": true
+    },
+    {
+      "category": "포션",
+      "name": "크라반의 수액",
+      "time_per_minute": 10,
+      "time_per_count": 12,
+      "is_searchable": true
+    },
+    {
+      "category": "기타",
+      "name": "순수의 결정",
+      "time_per_minute": 10,
+      "time_per_count": 8,
+      "is_searchable": true
+    }
+
+  ]
+}
