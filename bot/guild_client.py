@@ -38,10 +38,9 @@ class MyClient(discord.Client):
         print('Logged on as {0}!'.format(self.user))
         await self.change_presence(status=discord.Status.online)
 
-
         self.batch.start()
 
-    @tasks.loop(seconds=1800)
+    @tasks.loop(seconds=900)
     async def batch(self):
         try:
             channel = self.get_channel(self.target_channel)

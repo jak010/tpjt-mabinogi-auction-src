@@ -12,36 +12,55 @@
       "name": "최고급 가죽",
       "time_per_minute": 10,
       "time_per_count": 5,
-      "is_searchable": true
+      "is_searchable": true,
     },
     {
       "category": "기타",
       "name": "에코스톤 각성제",
       "time_per_minute": 10,
       "time_per_count": 8,
-      "is_searchable": true
+      "is_searchable": true,
+      "location": "시드 피나하"
     },
     {
       "category": "기타",
       "name": "고급 에코스톤 각성제",
       "time_per_minute": 10,
       "time_per_count": 6,
-      "is_searchable": true
+      "is_searchable": true,
+      "location": "시드 피나하"
+    },
+    {
+      "category": "기타",
+      "name": "최고급 에코스톤 각성제",
+      "time_per_minute": 10,
+      "time_per_count": 6,
+      "is_searchable": true,
+      "location": "시드 피나하"
     },
     {
       "category": "포션",
       "name": "크라반의 수액",
       "time_per_minute": 10,
       "time_per_count": 12,
-      "is_searchable": true
+      "is_searchable": true,
+      "location": "토리 협곡"
     },
     {
       "category": "기타",
       "name": "순수의 결정",
       "time_per_minute": 10,
       "time_per_count": 8,
-      "is_searchable": true
+      "is_searchable": true,
+      "location": "팔리아스"
+    },
+    {
+      "category": "기타",
+      "name": "붉은 순수의 결정",
+      "time_per_minute": 10,
+      "time_per_count": 8,
+      "is_searchable": true,
+      "location": "팔리아스"
     }
-
   ]
 }
