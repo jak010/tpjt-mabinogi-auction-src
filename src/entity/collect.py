@@ -2,7 +2,7 @@ import dataclasses
 
 
 @dataclasses.dataclass
-class MoneyItem:
+class Collect:
     category: str
     name: str
     time_per_minute: int
